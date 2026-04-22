@@ -1,0 +1,41 @@
+{
+  "$schema": "./site.config.schema.json",
+  "projectName": "site-wizard-demo",
+  "brand": {
+    "name": "Demo Partners",
+    "shortName": "DEMO",
+    "tagline": "ひとことキャッチコピー",
+    "description": "事業内容をやや詳しく説明する2〜3行のサブコピー。",
+    "primaryColor": "#0ea5e9"
+  },
+  "seo": {
+    "title": "Demo Partners | ひとことキャッチ",
+    "description": "事業内容をやや詳しく説明する2〜3行のサブコピー。",
+    "ogImage": "/ogp.png"
+  },
+  "hero": {
+    "headline": "メイン訴求見出し",
+    "subheadline": "補助テキスト",
+    "bullets": ["訴求ポイント1", "訴求ポイント2", "訴求ポイント3"],
+    "image": "/hero.png",
+    "ctaLabel": "お問い合わせ",
+    "ctaTarget": "form"
+  },
+  "access": {
+    "mode": "open",
+    "username": "",
+    "password": ""
+  },
+  "pages": {
+    "lp": true,
+    "dashboard": false,
+    "form": false,
+    "documents": false,
+    "slides": false
+  },
+  "contact": {
+    "email": "",
+    "phone": "",
+    "company": ""
+  }
+}

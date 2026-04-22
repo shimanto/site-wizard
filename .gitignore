@@ -1,0 +1,16 @@
+node_modules
+dist
+.DS_Store
+*.local
+.vite
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+
+# wizard output (includes generated passwords)
+wizard-output/
+agent/.env.shared
+
+# Windows
+Thumbs.db

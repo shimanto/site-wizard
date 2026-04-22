@@ -1,0 +1,44 @@
+{
+  "projectName": "site-wizard-demo",
+  "brand": {
+    "name": "Site Wizard",
+    "shortName": "SW",
+    "tagline": "相談からサイトへ — ウィザードで立ち上げる案件サイト",
+    "description": "ヒアリング内容を対話入力するだけで、Cloudflare Pages 上のサブドメインに公開できるサイトテンプレート。",
+    "primaryColor": "#0ea5e9"
+  },
+  "seo": {
+    "title": "Site Wizard | 案件サイトをウィザードで立ち上げる",
+    "description": "相談→ヒアリング→公開までをCLIで一気通貫。",
+    "ogImage": "/ogp.png"
+  },
+  "hero": {
+    "headline": "相談から、公開まで。",
+    "subheadline": "ウィザード形式で案件サイトを即日立ち上げる",
+    "bullets": [
+      "対話入力で内容を指定するだけ",
+      "Cloudflare Pages のサブドメインに自動配信",
+      "OPEN / CLOSED(ID+PW)を選択可能"
+    ],
+    "image": "/hero.png",
+    "ctaLabel": "お問い合わせ",
+    "ctaTarget": "form"
+  },
+  "access": {
+    "mode": "open",
+    "username": "",
+    "password": ""
+  },
+  "pages": {
+    "lp": true,
+    "dashboard": false,
+    "form": false,
+    "documents": false,
+    "slides": false
+  },
+  "contact": {
+    "email": "",
+    "phone": "",
+    "company": ""
+  }
+}
