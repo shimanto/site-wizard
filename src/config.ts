@@ -23,6 +23,7 @@ export type SiteConfig = {
     subheadline?: string
     bullets: string[]
     image?: string
+    imagePrompt?: string
     ctaLabel?: string
     ctaTarget?: PageKey
   }

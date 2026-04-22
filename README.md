@@ -8,7 +8,7 @@
 
 - **CLIウィザード** — 対話入力で `site.config.json` を生成
 - **brief駆動の非対話モード** — `brief.md`(箇条書き)を渡せば対話ゼロで構築
-- **Claude で LPコピー自動執筆** — キャッチ / 見出し / 訴求3点を `brief.md` のメモから自動生成
+- **Claude Code (CLI) で LPコピー執筆** — 単発API呼び出しではなく、`claude -p` によるエージェントループで `brief.md`・`src/pages`・既存案件を読み込みながら執筆(CCの既存認証を使用、追加APIキー不要)
 - **config駆動** — LP・ログインゲート・ページ構成・ブランドカラーを config から差し替え
 - **OPEN / CLOSED** — 公開サイト or sessionStorage 簡易認証を切替
 - **ユニークパスワード自動生成** — CLOSEDの場合、案件ごとに16文字のランダムPWを発行
@@ -30,7 +30,7 @@
 ```bash
 gh repo create shimanto/{案件slug} --template shimanto/site-wizard --private --clone
 cd {案件slug}
-cp .env.example .env   # ANTHROPIC_API_KEY / GEMINI_API_KEY / CLOUDFLARE_* を設定
+cp .env.example .env   # GEMINI_API_KEY / CLOUDFLARE_* を設定(Claude Codeは既存認証を使用)
 pnpm install
 pnpm wizard
 git add -A && git commit -m "setup" && git push

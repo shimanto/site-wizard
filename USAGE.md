@@ -12,11 +12,12 @@
 ローカル用 `.env` には以下を書きます（`.gitignore` 対象）:
 
 ```env
-ANTHROPIC_API_KEY=sk-ant-...   # Claude(LPコピー自動執筆用)
 GEMINI_API_KEY=AIza...         # Gemini(画像生成用)
 CLOUDFLARE_API_TOKEN=...
 CLOUDFLARE_ACCOUNT_ID=...
 ```
+
+**Claude Code** は `claude -p` 経由で呼び出すため、既に `claude auth` 済みであれば追加APIキー不要です。未インストールの場合は https://claude.com/claude-code からインストールしてください。
 
 ## 1. 新規案件リポの作成
 
@@ -70,17 +71,17 @@ pnpm wizard --brief brief.md
 brief駆動モードの動作:
 
 1. `brief.md` を解析（`- key: value` 箇条書き + `##` 以降のメモ）
-2. Claude に`## メモ` を渡して **LPコピー(tagline/headline/subheadline/bullets/description)** を自動執筆
-3. 明示された `- tagline:` 等があればそれを優先
+2. **Claude Code (`claude -p`) をエージェントモードで起動** — brief.md / src/pages / site.config.example.json を自動読み取りし、反復しながらLPコピーを執筆
+3. 構造化出力(JSON Schema): tagline / description / headline / subheadline / bullets×3 / heroImagePrompt
 4. CLOSED で `password: auto` なら16文字のユニークPWを自動発行
-5. `site.config.json` 書き出し → 画像生成 → CF Pages 作成
+5. `site.config.json` 書き出し → Gemini画像生成(CC生成プロンプト使用) → CF Pages 作成
 
 オプション:
 
 | flag | 意味 |
 |---|---|
 | `--brief <path>` | brief.md 指定(非対話モード開始) |
-| `--no-ai` | Claude 自動執筆を無効化(bullets/tagline はブランク or brief記載値) |
+| `--no-ai` | Claude Code 呼び出しを無効化(bullets/tagline はブランク or brief記載値) |
 | `--no-image` | Gemini 画像生成をスキップ |
 | `--no-cloudflare` | wrangler による Pages 作成をスキップ |
 

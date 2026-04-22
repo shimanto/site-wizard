@@ -7,7 +7,7 @@ import { generatePassword, generateSlug } from './password.mjs'
 import { generateImage, buildHeroPrompt, buildOgpPrompt } from './gemini.mjs'
 import { createPagesProject } from './cloudflare.mjs'
 import { loadBrief, splitList } from './brief.mjs'
-import { draftLpCopy } from './claude.mjs'
+import { draftLpCopyWithCC } from './cc-agent.mjs'
 
 loadEnv()
 
@@ -168,31 +168,32 @@ async function runFromBrief(briefPath, opts) {
   )
   enabled.add('lp')
 
-  // LPコピーをClaudeで自動執筆
+  // LPコピーを Claude Code headless で自動執筆(エージェントループ)
   let copy = null
-  if (!opts.noAi && process.env.ANTHROPIC_API_KEY) {
+  if (!opts.noAi) {
     try {
-      console.log('\n🧠 Claude でLPコピーを執筆中...')
+      console.log('\n🧠 Claude Code でLPコピーを執筆中...')
+      console.log('   (brief.md・src/pages・site.config.example.json を読み取り、エージェントが反復)')
       const t0 = Date.now()
-      const { copy: c, usage } = await draftLpCopy({
-        name,
-        primaryColor,
-        memo,
+      const { copy: c, meta } = await draftLpCopyWithCC({
+        briefPath: briefPath,
+        cwd: ROOT_DIR,
       })
       copy = c
+      const cost = meta?.total_cost_usd ?? meta?.cost_usd
+      const turns = meta?.num_turns ?? meta?.turns
       console.log(
-        `   ✅ in ${usage?.input_tokens || '?'} / out ${usage?.output_tokens || '?'} tokens, ${Date.now() - t0}ms`,
+        `   ✅ ${Date.now() - t0}ms${turns ? ` / ${turns} turns` : ''}${cost != null ? ` / $${Number(cost).toFixed(4)}` : ''}`,
       )
-      console.log(`   tagline:     ${copy.tagline}`)
-      console.log(`   headline:    ${copy.headline}`)
+      console.log(`   tagline:   ${copy.tagline}`)
+      console.log(`   headline:  ${copy.headline}`)
+      console.log(`   bullets:   ${copy.bullets.map((b) => `「${b}」`).join(' ')}`)
     } catch (err) {
-      console.log(`   ⚠️  AI執筆失敗: ${err.message}`)
+      console.log(`   ⚠️  AI執筆失敗: ${err.message.split('\n')[0]}`)
       console.log('   (placeholder文言で続行)')
     }
-  } else if (opts.noAi) {
-    console.log('🧠 --no-ai 指定: Claude執筆をスキップ')
   } else {
-    console.log('🧠 ANTHROPIC_API_KEY 未設定: Claude執筆をスキップ')
+    console.log('🧠 --no-ai 指定: Claude Code 呼び出しをスキップ')
   }
 
   const tagline = copy?.tagline || fields.tagline || ''
@@ -205,6 +206,7 @@ async function runFromBrief(briefPath, opts) {
       headline: copy?.headline || tagline || name,
       subheadline: copy?.subheadline || '',
       bullets: copy?.bullets || null,
+      imagePrompt: copy?.heroImagePrompt || null,
     },
     access: { mode: accessMode, username, password },
     pages: {
@@ -250,6 +252,7 @@ function buildConfig({ slug, brand, hero, access, pages, contact, existingBullet
       subheadline: hero.subheadline,
       bullets,
       image: '/hero.png',
+      imagePrompt: hero.imagePrompt || undefined,
       ctaLabel: pages.form ? 'お問い合わせ' : undefined,
       ctaTarget: pages.form ? 'form' : undefined,
     },
@@ -300,16 +303,19 @@ async function finalize(cfg, { genImage, genCloudflare }) {
   if (genImage) {
     mkdirSync(PUBLIC_DIR, { recursive: true })
     try {
-      console.log('\n🎨 hero.png を生成中...')
-      const t0 = Date.now()
-      const hero = await generateImage(
-        buildHeroPrompt({
-          brandName: cfg.brand.name,
-          tagline: cfg.brand.tagline,
-          description: cfg.brand.description,
-          primaryColor: cfg.brand.primaryColor,
-        }),
+      const heroPrompt = cfg.hero.imagePrompt
+        ? cfg.hero.imagePrompt
+        : buildHeroPrompt({
+            brandName: cfg.brand.name,
+            tagline: cfg.brand.tagline,
+            description: cfg.brand.description,
+            primaryColor: cfg.brand.primaryColor,
+          })
+      console.log(
+        `\n🎨 hero.png を生成中... ${cfg.hero.imagePrompt ? '(CC生成プロンプト使用)' : '(既定プロンプト使用)'}`,
       )
+      const t0 = Date.now()
+      const hero = await generateImage(heroPrompt)
       writeFileSync(path.join(PUBLIC_DIR, 'hero.png'), hero.buffer)
       console.log(`   ✅ ${Math.round(hero.buffer.length / 1024)}KB / ${Date.now() - t0}ms`)
 
