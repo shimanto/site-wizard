@@ -12,7 +12,8 @@
 ローカル用 `.env` には以下を書きます（`.gitignore` 対象）:
 
 ```env
-GEMINI_API_KEY=AIza...
+ANTHROPIC_API_KEY=sk-ant-...   # Claude(LPコピー自動執筆用)
+GEMINI_API_KEY=AIza...         # Gemini(画像生成用)
 CLOUDFLARE_API_TOKEN=...
 CLOUDFLARE_ACCOUNT_ID=...
 ```
@@ -31,6 +32,8 @@ cp .env.example .env
 ```
 
 ## 2. ウィザード実行
+
+### 2-A. 対話モード
 
 ```bash
 pnpm install
@@ -52,6 +55,46 @@ pnpm wizard
 - CLOSED の場合、16文字のユニークPW自動生成 → `wizard-output/{slug}.credentials.txt` に保存（gitignore）
 - Gemini で `public/hero.png` と `public/ogp.png` を生成（任意）
 - `wrangler pages project create {slug}` で Cloudflare Pages プロジェクトを作成
+
+### 2-B. brief駆動・非対話モード
+
+`brief.md` を用意して、対話なしで一気通貫:
+
+```bash
+cp brief.example.md brief.md
+# → brief.md を編集(name/slug/access/pages/連絡先と、メモ欄にヒアリング内容)
+pnpm install
+pnpm wizard --brief brief.md
+```
+
+brief駆動モードの動作:
+
+1. `brief.md` を解析（`- key: value` 箇条書き + `##` 以降のメモ）
+2. Claude に`## メモ` を渡して **LPコピー(tagline/headline/subheadline/bullets/description)** を自動執筆
+3. 明示された `- tagline:` 等があればそれを優先
+4. CLOSED で `password: auto` なら16文字のユニークPWを自動発行
+5. `site.config.json` 書き出し → 画像生成 → CF Pages 作成
+
+オプション:
+
+| flag | 意味 |
+|---|---|
+| `--brief <path>` | brief.md 指定(非対話モード開始) |
+| `--no-ai` | Claude 自動執筆を無効化(bullets/tagline はブランク or brief記載値) |
+| `--no-image` | Gemini 画像生成をスキップ |
+| `--no-cloudflare` | wrangler による Pages 作成をスキップ |
+
+### 2-C. 自由記述メモ → brief.md を AI ドラフト
+
+ヒアリング原文しかない状態から、brief.md を Claude に下書きさせるには:
+
+```bash
+pnpm brief hearing.txt            # → brief.md に出力
+pnpm brief hearing.txt -o x.md    # 出力先指定
+cat hearing.txt | pnpm brief -    # stdin から
+```
+
+生成された `brief.md` は「推測項目には`?`」が付きます。確認・修正の上、`pnpm wizard --brief brief.md` へ。
 
 ## 3. ローカル確認 → デプロイ
 

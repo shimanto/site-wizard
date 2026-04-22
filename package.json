@@ -10,6 +10,8 @@
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
     "wizard": "node scripts/wizard.mjs",
+    "wizard:brief": "node scripts/wizard.mjs --brief brief.md",
+    "brief": "node scripts/brief-from-memo.mjs",
     "gen:hero": "node agent/generate-hero.mjs"
   },
   "dependencies": {

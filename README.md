@@ -7,6 +7,8 @@
 ## 特徴
 
 - **CLIウィザード** — 対話入力で `site.config.json` を生成
+- **brief駆動の非対話モード** — `brief.md`(箇条書き)を渡せば対話ゼロで構築
+- **Claude で LPコピー自動執筆** — キャッチ / 見出し / 訴求3点を `brief.md` のメモから自動生成
 - **config駆動** — LP・ログインゲート・ページ構成・ブランドカラーを config から差し替え
 - **OPEN / CLOSED** — 公開サイト or sessionStorage 簡易認証を切替
 - **ユニークパスワード自動生成** — CLOSEDの場合、案件ごとに16文字のランダムPWを発行
@@ -23,21 +25,41 @@
 
 詳細は [`USAGE.md`](./USAGE.md) 参照。
 
+### A. 対話モード
+
 ```bash
-# 1) テンプレートから子リポ作成
 gh repo create shimanto/{案件slug} --template shimanto/site-wizard --private --clone
 cd {案件slug}
-
-# 2) .env を準備（GEMINI_API_KEY / CLOUDFLARE_* を設定）
-cp .env.example .env
-#  → エディタで埋める
-
-# 3) ウィザード実行
+cp .env.example .env   # ANTHROPIC_API_KEY / GEMINI_API_KEY / CLOUDFLARE_* を設定
 pnpm install
 pnpm wizard
-
-# 4) コミット & プッシュ（自動デプロイ）
 git add -A && git commit -m "setup" && git push
+```
+
+### B. brief駆動・非対話モード（推奨）
+
+```bash
+gh repo create shimanto/{案件slug} --template shimanto/site-wizard --private --clone
+cd {案件slug}
+cp .env.example .env   # 同上
+
+# brief.md を用意(箇条書きでヒアリング内容を記入)
+cp brief.example.md brief.md
+# → 編集して name/slug/pages などを記入、メモ欄に業種・差別化などを書く
+
+pnpm install
+pnpm wizard --brief brief.md   # Claudeがコピー自動執筆 + 画像生成 + CF Pages作成
+git add -A && git commit -m "setup" && git push
+```
+
+### C. メモ → brief.md を AI ドラフト
+
+手元にヒアリング自由記述メモしかない場合は、先に brief.md を Claude で自動生成できます:
+
+```bash
+pnpm brief hearing.txt   # → brief.md が生成される
+# 必要な修正を加えて
+pnpm wizard --brief brief.md
 ```
 
 ## ライセンス
