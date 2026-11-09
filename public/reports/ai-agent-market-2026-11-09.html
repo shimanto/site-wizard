@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AIエージェント開発市場・週次レポート | 2026-11-09</title>
+  <meta name="description" content="受託案件のPoC短期化とIP化の判断に役立つ、AIエージェント開発市場の重要動向を簡潔に整理。" />
+  <style>
+    :root{
+      --bg:#f7f8fb;--card:#fff;--text:#172033;--muted:#667085;--line:#e7eaf0;
+      --accent:#0f6fff;--accent2:#eef5ff;--ok:#147d64;--shadow:0 10px 30px rgba(20,32,55,.08)
+    }
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.75}
+    a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+    .wrap{max-width:980px;margin:auto;padding:28px 18px 72px}
+    .hero{background:linear-gradient(135deg,#0f6fff,#6f5cff);color:#fff;border-radius:24px;padding:42px 36px;box-shadow:var(--shadow)}
+    .hero .kicker{font-size:13px;letter-spacing:.08em;font-weight:700;opacity:.88}
+    .hero h1{font-size:clamp(30px,5vw,52px);line-height:1.18;margin:10px 0 12px}
+    .hero p{margin:0;max-width:760px;font-size:17px;opacity:.93}
+    .date{margin-top:18px;font-size:14px;opacity:.86}
+    .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0 30px}
+    .pill{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+    .pill b{display:block;font-size:14px;margin-bottom:4px}.pill span{font-size:13px;color:var(--muted)}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;margin:18px 0;box-shadow:0 4px 18px rgba(20,32,55,.04)}
+    .num{display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;border-radius:10px;background:var(--accent2);color:var(--accent);font-weight:800;margin-right:8px}
+    h2{font-size:25px;line-height:1.4;margin:0 0 16px}
+    h3{font-size:16px;margin:18px 0 5px;color:#27324a}
+    p{margin:6px 0 12px}
+    .source{border-top:1px solid var(--line);margin-top:18px;padding-top:14px;font-size:13px;color:var(--muted)}
+    .decision{background:#0e172a;color:#fff;border-radius:22px;padding:30px;margin-top:28px}
+    .decision h2{margin-bottom:10px}.decision p{color:#d5dbea}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+    .mini{background:#18243a;border:1px solid #2a3852;border-radius:14px;padding:16px}
+    .mini b{display:block;margin-bottom:6px}.mini span{font-size:13px;color:#c5cede}
+    .action{background:#eef8f4;border:1px solid #cde9dd;border-radius:18px;padding:22px;margin-top:18px}
+    .action strong{color:var(--ok)}
+    footer{margin-top:34px;color:var(--muted);font-size:12px;text-align:center}
+    @media(max-width:720px){.summary,.grid{grid-template-columns:1fr}.hero{padding:30px 24px}.card{padding:22px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="kicker">WEEKLY AI AGENT MARKET BRIEF</div>
+      <h1>AIエージェント開発市場<br>週次レポート</h1>
+      <p>受託案件のPoC短期化とIP化の判断に役立つ重要動向だけを、導入事例・価格・提供形態・主要プレイヤーの動きから整理。</p>
+      <div class="date">2026年11月9日</div>
+    </section>
+
+    <section class="summary" aria-label="今週の要点">
+      <div class="pill"><b>PoC短期化</b><span>汎用Agentより、業務Skill・連携・評価の標準化が鍵</span></div>
+      <div class="pill"><b>IP化</b><span>Skill／Connector／Eval／Approvalを顧客固有設定から分離</span></div>
+      <div class="pill"><b>市場</b><span>AI単体ではなく、人の確認と業務成果測定を含む提供形態へ</span></div>
+    </section>
+
+    <article class="card">
+      <h2><span class="num">1</span>Agent Skillsの標準化が進展</h2>
+      <h3>何が変わったか</h3>
+      <p>Anthropicは2026年10月22日、Agent Skillsの標準仕様をLinux Foundation傘下のAgentic AI Foundation（AAIF）へ寄贈。70以上のエージェントプラットフォームが統合し、Skillsの公開・導入規模も大きく拡大しています。</p>
+      <h3>受託PoCへの影響</h3>
+      <p>業務手順を<code>SKILL.md</code>を中心とする独立部品として持つことで、特定のLLMや開発環境に縛られにくくなり、PoCごとの作り直しを減らせます。</p>
+      <h3>IP化の示唆</h3>
+      <p>監視アラート分析、障害一次切り分け、SES案件分類などを「業務Skill」として蓄積し、顧客固有のデータ・権限・接続設定と分離する設計が有効です。</p>
+      <div class="source">出典：<a href="https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation" target="_blank" rel="noopener">Anthropic — Donating Agent Skills to the Agentic AI Foundation</a></div>
+    </article>
+
+    <article class="card">
+      <h2><span class="num">2</span>国内BPO型AIエージェントが月額4.9万円から</h2>
+      <h3>何が変わったか</h3>
+      <p>GMOランシステムは2026年10月15日、「GENBA AI byGMO」を提供開始。150種以上の業務別AIエージェントと人による例外対応・最終確認を組み合わせ、20時間プランは12か月契約で月額49,000円（税別）からです。</p>
+      <h3>受託PoCへの影響</h3>
+      <p>経理・人事・問い合わせ対応などの汎用業務では、「AIを作る」だけでは価格競争になりやすく、既製サービスとの費用対効果比較が必須になります。</p>
+      <h3>IP化の示唆</h3>
+      <p>差別化余地は、顧客固有システムとの連携、例外処理、業界固有ルール、監査・権限設計にあります。受託側はここを再利用可能な部品として持つべきです。</p>
+      <div class="source">出典：<a href="https://internet.gmo/news/article/242/" target="_blank" rel="noopener">GMOインターネット — GENBA AI byGMO 提供開始</a></div>
+    </article>
+
+    <article class="card">
+      <h2><span class="num">3</span>国内企業が「業務実行＋人の判断＋成果測定」を製品化</h2>
+      <h3>何が変わったか</h3>
+      <p>ソフトバンクは2026年10月26日、「AGENTIC STAR 3.0」を提供開始。AIエージェントによる業務実行と人による判断・確認を組み合わせ、実行履歴、完了・失敗件数、処理時間などを可視化します。</p>
+      <h3>受託PoCへの影響</h3>
+      <p>PoCの評価軸は「動いたか」から、「何件処理できたか」「どれだけ時間を削減したか」「失敗率は何%か」へ移っています。初期PoCからKPIを埋め込む必要があります。</p>
+      <h3>IP化の示唆</h3>
+      <p>Human Approval、実行履歴、監査ログ、ROI測定を共通モジュール化すれば、複数の業務Agentに横展開できます。</p>
+      <div class="source">出典：<a href="https://www.softbank.jp/business/news/2026/1026-01" target="_blank" rel="noopener">ソフトバンク — AGENTIC STAR 3.0 提供開始</a></div>
+    </article>
+
+    <section class="decision">
+      <h2>今週の受託・IP化判断</h2>
+      <p>短期PoCを単発売上で終わらせず、案件を重ねるほど開発工数が下がる構造へ移すことが重要です。</p>
+      <div class="grid">
+        <div class="mini"><b>SES営業AI</b><span>メール分類・案件抽出・マッチングを共通部品化</span></div>
+        <div class="mini"><b>IT運用Skill Pack</b><span>アラート分析・Runbook照合・一次切り分けをSkill化</span></div>
+        <div class="mini"><b>Agent Eval Pack</b><span>品質・原価・処理時間・手動修正率を共通評価</span></div>
+      </div>
+    </section>
+
+    <section class="action">
+      <strong>今週の推奨アクション</strong>
+      <p>SES営業AI MVPの「メール取得 → 分類 → 案件抽出 → 承認」を独立モジュールに分離し、100件程度のサンプルで分類精度・処理時間・API原価・手動修正率を測定する。取得頻度、重複排除、リトライ制御まで共通化すると、他のメール処理PoCにも展開しやすくなります。</p>
+    </section>
+
+    <footer>AIエージェント開発市場 週次レポート / 2026-11-09</footer>
+  </main>
+</body>
+</html>
